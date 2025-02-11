@@ -1,0 +1,87 @@
+syntax = "proto3";
+
+package product;
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/Ukkenjijo/TrendTrekProtofiles/product";
+
+// Product Service
+service ProductService {
+  rpc CreateProduct (CreateProductRequest) returns (ProductResponse);
+  rpc GetProduct (GetProductRequest) returns (ProductResponse);
+  rpc UpdateProduct (UpdateProductRequest) returns (ProductResponse);
+  rpc DeleteProduct (DeleteProductRequest) returns (DeleteProductResponse);
+  rpc ListProducts (ListProductsRequest) returns (ListProductsResponse);
+}
+
+// Category Service
+service CategoryService {
+  rpc CreateCategory (CreateCategoryRequest) returns (CategoryResponse);
+  rpc GetCategory (GetCategoryRequest) returns (CategoryResponse);
+  rpc UpdateCategory (UpdateCategoryRequest) returns (CategoryResponse);
+  rpc DeleteCategory (DeleteCategoryRequest) returns (DeleteCategoryResponse);
+  rpc ListCategories (ListCategoriesRequest) returns (ListCategoriesResponse);
+}
+
+// ========== Product Messages ==========
+message CreateProductRequest {
+  string name = 1;
+  string description = 2;
+  float price = 3;
+  string category_id = 4;
+}
+
+message ProductResponse {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  float price = 4;
+  string category_id = 5;
+  string created_at = 6;
+  string updated_at = 7;
+}
+
+message GetProductRequest { string id = 1; }
+message UpdateProductRequest {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  float price = 4;
+  string category_id = 5;
+}
+message DeleteProductRequest { string id = 1; }
+message DeleteProductResponse { bool success = 1; }
+message ListProductsRequest {
+  string category_id = 1;
+  string search_query = 2;
+  int32 page = 3;    // Page number
+  int32 page_size = 4; // Number of results per page
+}
+message ListProductsResponse { 
+    repeated ProductResponse products = 1; int32 total_count = 2; // Total number of products (for frontend pagination)
+}
+
+// ========== Category Messages ==========
+message CreateCategoryRequest {
+  string name = 1;
+  string description = 2;
+}
+
+message CategoryResponse {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  google.protobuf.Timestamp created_at = 4;
+  google.protobuf.Timestamp updated_at = 5;
+}
+
+message GetCategoryRequest { string id = 1; }
+message UpdateCategoryRequest {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+}
+message DeleteCategoryRequest { string id = 1; }
+message DeleteCategoryResponse { bool success = 1; }
+message ListCategoriesRequest {}
+message ListCategoriesResponse { repeated CategoryResponse categories = 1; }
