@@ -29,6 +29,7 @@ message CreateProductRequest {
   string description = 2;
   float price = 3;
   string category_id = 4;
+  int64 quantity =5;
 }
 
 message ProductResponse {
@@ -36,9 +37,10 @@ message ProductResponse {
   string name = 2;
   string description = 3;
   float price = 4;
-  string category_id = 5;
-  string created_at = 6;
-  string updated_at = 7;
+  int64 quantity =5;
+  string category_id = 6;
+  string created_at = 7;
+  string updated_at = 8;
 }
 
 message GetProductRequest { string id = 1; }
@@ -48,6 +50,7 @@ message UpdateProductRequest {
   string description = 3;
   float price = 4;
   string category_id = 5;
+  int64 quantity =6;
 }
 message DeleteProductRequest { string id = 1; }
 message DeleteProductResponse { bool success = 1; }
