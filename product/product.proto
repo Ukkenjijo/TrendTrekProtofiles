@@ -12,6 +12,7 @@ service ProductService {
   rpc UpdateProduct (UpdateProductRequest) returns (ProductResponse);
   rpc DeleteProduct (DeleteProductRequest) returns (DeleteProductResponse);
   rpc ListProducts (ListProductsRequest) returns (ListProductsResponse);
+  rpc ReduceStock (ReduceStockRequest) returns (ReduceStockResponse);
 }
 
 // Category Service
@@ -21,7 +22,7 @@ service CategoryService {
   rpc UpdateCategory (UpdateCategoryRequest) returns (CategoryResponse);
   rpc DeleteCategory (DeleteCategoryRequest) returns (DeleteCategoryResponse);
   rpc ListCategories (ListCategoriesRequest) returns (ListCategoriesResponse);
-  rpc ReduceStock (ReduceStockRequest) returns (ReduceStockResponse);
+  
 }
 
 // ========== Product Messages ==========
