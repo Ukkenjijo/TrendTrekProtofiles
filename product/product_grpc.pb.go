@@ -282,6 +282,7 @@ const (
 	CategoryService_UpdateCategory_FullMethodName = "/product.CategoryService/UpdateCategory"
 	CategoryService_DeleteCategory_FullMethodName = "/product.CategoryService/DeleteCategory"
 	CategoryService_ListCategories_FullMethodName = "/product.CategoryService/ListCategories"
+	CategoryService_ReduceStock_FullMethodName    = "/product.CategoryService/ReduceStock"
 )
 
 // CategoryServiceClient is the client API for CategoryService service.
@@ -295,6 +296,7 @@ type CategoryServiceClient interface {
 	UpdateCategory(ctx context.Context, in *UpdateCategoryRequest, opts ...grpc.CallOption) (*CategoryResponse, error)
 	DeleteCategory(ctx context.Context, in *DeleteCategoryRequest, opts ...grpc.CallOption) (*DeleteCategoryResponse, error)
 	ListCategories(ctx context.Context, in *ListCategoriesRequest, opts ...grpc.CallOption) (*ListCategoriesResponse, error)
+	ReduceStock(ctx context.Context, in *ReduceStockRequest, opts ...grpc.CallOption) (*ReduceStockResponse, error)
 }
 
 type categoryServiceClient struct {
@@ -355,6 +357,16 @@ func (c *categoryServiceClient) ListCategories(ctx context.Context, in *ListCate
 	return out, nil
 }
 
+func (c *categoryServiceClient) ReduceStock(ctx context.Context, in *ReduceStockRequest, opts ...grpc.CallOption) (*ReduceStockResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ReduceStockResponse)
+	err := c.cc.Invoke(ctx, CategoryService_ReduceStock_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CategoryServiceServer is the server API for CategoryService service.
 // All implementations must embed UnimplementedCategoryServiceServer
 // for forward compatibility.
@@ -366,6 +378,7 @@ type CategoryServiceServer interface {
 	UpdateCategory(context.Context, *UpdateCategoryRequest) (*CategoryResponse, error)
 	DeleteCategory(context.Context, *DeleteCategoryRequest) (*DeleteCategoryResponse, error)
 	ListCategories(context.Context, *ListCategoriesRequest) (*ListCategoriesResponse, error)
+	ReduceStock(context.Context, *ReduceStockRequest) (*ReduceStockResponse, error)
 	mustEmbedUnimplementedCategoryServiceServer()
 }
 
@@ -390,6 +403,9 @@ func (UnimplementedCategoryServiceServer) DeleteCategory(context.Context, *Delet
 }
 func (UnimplementedCategoryServiceServer) ListCategories(context.Context, *ListCategoriesRequest) (*ListCategoriesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListCategories not implemented")
+}
+func (UnimplementedCategoryServiceServer) ReduceStock(context.Context, *ReduceStockRequest) (*ReduceStockResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ReduceStock not implemented")
 }
 func (UnimplementedCategoryServiceServer) mustEmbedUnimplementedCategoryServiceServer() {}
 func (UnimplementedCategoryServiceServer) testEmbeddedByValue()                         {}
@@ -502,6 +518,24 @@ func _CategoryService_ListCategories_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CategoryService_ReduceStock_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReduceStockRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CategoryServiceServer).ReduceStock(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CategoryService_ReduceStock_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CategoryServiceServer).ReduceStock(ctx, req.(*ReduceStockRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // CategoryService_ServiceDesc is the grpc.ServiceDesc for CategoryService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -528,6 +562,10 @@ var CategoryService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListCategories",
 			Handler:    _CategoryService_ListCategories_Handler,
+		},
+		{
+			MethodName: "ReduceStock",
+			Handler:    _CategoryService_ReduceStock_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

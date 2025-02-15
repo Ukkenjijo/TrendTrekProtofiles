@@ -21,6 +21,7 @@ service CategoryService {
   rpc UpdateCategory (UpdateCategoryRequest) returns (CategoryResponse);
   rpc DeleteCategory (DeleteCategoryRequest) returns (DeleteCategoryResponse);
   rpc ListCategories (ListCategoriesRequest) returns (ListCategoriesResponse);
+  rpc ReduceStock (ReduceStockRequest) returns (ReduceStockResponse);
 }
 
 // ========== Product Messages ==========
@@ -62,6 +63,15 @@ message ListProductsRequest {
 }
 message ListProductsResponse { 
     repeated ProductResponse products = 1; int32 total_count = 2; // Total number of products (for frontend pagination)
+}
+
+// ========== Stock Messages ==========
+message ReduceStockRequest {
+  string product_id = 1;
+  int64 quantity = 2;
+}
+message ReduceStockResponse {
+  bool success = 1;
 }
 
 // ========== Category Messages ==========
